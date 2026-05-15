@@ -14,6 +14,8 @@ import TeacherDashboard from "./pages/teacher/TeacherDashboard";
 
 import ParentDashboard from "./pages/parent/ParentDashboard";
 
+import StudentsPage from "./pages/admin/StudentsPage";
+
 export default function App() {
   const { user, loading } = useContext(AuthContext);
 
@@ -48,6 +50,14 @@ export default function App() {
         element={
           <ProtectedRoute user={user}>
             <ParentDashboard />
+          </ProtectedRoute>
+        }
+      />
+      <Route
+        path="/admin/students"
+        element={
+          <ProtectedRoute user={user}>
+            <StudentsPage />
           </ProtectedRoute>
         }
       />

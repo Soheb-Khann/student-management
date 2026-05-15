@@ -21,6 +21,11 @@ class StudentSerializer(serializers.ModelSerializer):
 
     family = FamilySerializer(read_only=True)
 
+    school_class_name = serializers.CharField(
+        source='school_class.name',
+        read_only=True
+    )
+
     class Meta:
         model = Student
         fields = '__all__'
