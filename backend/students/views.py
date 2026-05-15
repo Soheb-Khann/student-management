@@ -9,6 +9,9 @@ from .permissions import StudentPermission
 from classes.models import ClassAssignment
 from accounts.models import Teacher
 
+from .models import ProgressRecord
+from .serializers import ProgressRecordSerializer
+
 
 class StudentViewSet(viewsets.ModelViewSet):
 
@@ -54,3 +57,35 @@ class StudentViewSet(viewsets.ModelViewSet):
                 return Student.objects.none()
 
         return Student.objects.none()
+
+
+class ProgressRecordViewSet(viewsets.ModelViewSet):
+
+    serializer_class = ProgressRecordSerializer
+
+    permission_classes = [IsAuthenticated]
+
+    def get_queryset(self):
+
+        user = self.request.user
+
+        if user.role == 'admin':
+            return ProgressRecord.objects.all()
+
+        elif user.role == 'teacher':
+
+            teacher = user.teacher_profile
+
+            return ProgressRecord.objects.filter(
+                updated_by=teacher
+            )
+
+        elif user.role == 'parent':
+
+            family = user.family_profile
+
+            return ProgressRecord.objects.filter(
+                student__family=family
+            )
+
+        return ProgressRecord.objects.none()

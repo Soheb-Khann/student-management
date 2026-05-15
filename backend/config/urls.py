@@ -26,7 +26,10 @@ urlpatterns = [
     path('api/', include('students.urls')),
     path('api/', include('attendance.urls')),
     path('api/', include('marks.urls')),
+    path('api/', include('fees.urls')),
+    path('api/', include('feedback.urls')),
 ]
+
 
 if settings.DEBUG:
     urlpatterns += static(
