@@ -9,6 +9,11 @@ from accounts.models import Teacher
 
 class MarkRecord(models.Model):
 
+    EXAM_TYPES = (
+        ("exam", "Exam"),
+        ("assignment", "Assignment"),
+        ("quiz", "Quiz"),
+    )
     student = models.ForeignKey(
         Student,
         on_delete=models.CASCADE,
@@ -27,16 +32,34 @@ class MarkRecord(models.Model):
     )
 
     exam_name = models.CharField(max_length=255)
+    exam_type = models.CharField(max_length=50, choices=EXAM_TYPES, null=True, blank=True)
 
-    total_marks = models.PositiveIntegerField(default=100)
 
-    obtained_marks = models.PositiveIntegerField()
+    marks_obtained = models.DecimalField( max_digits=5, decimal_places=2, null=True, blank=True)
+
+    total_marks = models.DecimalField( max_digits=5, decimal_places=2, null=True, blank=True)
+
+    semester = models.CharField( max_length=50, null=True, blank=True)
+
+    remarks = models.TextField( blank=True, null=True)
+
+    created_at = models.DateTimeField( auto_now_add=True)
 
     exam_date = models.DateField()
 
-    remarks = models.TextField(blank=True, null=True)
+def percentage(self):
 
-    created_at = models.DateTimeField(auto_now_add=True)
+        if self.total_marks == 0:
+            return 0
 
-    def __str__(self):
-        return f"{self.student} - {self.subject}"
+        return (
+            self.marks_obtained /
+            self.total_marks
+        ) * 100
+
+def __str__(self):
+    return self.exam_name
+
+
+    # def __str__(self):
+    #     return f"{self.student} - {self.subject}"

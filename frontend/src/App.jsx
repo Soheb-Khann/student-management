@@ -11,6 +11,8 @@ import AddStudentPage from "./pages/admin/AddStudentPage";
 import EditStudentPage from "./pages/admin/EditStudentPage";
 import AttendancePage from "./pages/teacher/AttendancePage";
 import StudentProfilePage from "./pages/admin/StudentProfilePage";
+import MarksPage from "./pages/teacher/MarksPage";
+import ProgressPage from "./pages/teacher/ProgressPage";
 
 export default function App() {
   const { user, loading } = useContext(AuthContext);
@@ -81,6 +83,39 @@ export default function App() {
         element={
           <ProtectedRoute user={user}>
             <StudentProfilePage />
+          </ProtectedRoute>
+        }
+      />
+      <Route
+        path="/teacher/marks"
+        element={
+          <ProtectedRoute user={user}>
+            <MarksPage />
+          </ProtectedRoute>
+        }
+      />
+      <Route
+        path="/teacher/progress"
+        element={
+          <ProtectedRoute user={user}>
+            <ProgressPage />
+          </ProtectedRoute>
+        }
+      />
+
+      <Route
+        path="/admin/marks"
+        element={
+          <ProtectedRoute user={user}>
+            <MarksPage />
+          </ProtectedRoute>
+        }
+      />
+      <Route
+        path="/admin/progress"
+        element={
+          <ProtectedRoute user={user}>
+            <ProgressPage />
           </ProtectedRoute>
         }
       />

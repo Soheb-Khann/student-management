@@ -48,6 +48,14 @@ export default function Sidebar() {
             >
               Attendance
             </Link>
+
+            <Link to="/teacher/marks" className="block hover:text-gray-300">
+              Marks
+            </Link>
+
+            <Link to="/teacher/progress" className="block hover:text-gray-300">
+              Progress
+            </Link>
           </>
         )}
 
