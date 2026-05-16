@@ -6,6 +6,12 @@ import api from "../../services/api";
 export default function StudentsPage() {
   const [students, setStudents] = useState([]);
   const navigate = useNavigate();
+  const [search, setSearch] = useState("");
+
+  const filteredStudents = students.filter((student) =>
+    student.full_name.toLowerCase().includes(search.toLowerCase()),
+  );
+
   const deleteStudent = async (id) => {
     const confirmed = window.confirm("Delete this student?");
 
@@ -48,6 +54,13 @@ export default function StudentsPage() {
       </div>
 
       <div className="bg-white shadow rounded-lg overflow-hidden">
+        <input
+          type="text"
+          placeholder="Search students..."
+          className="border p-3 mb-4 w-full"
+          value={search}
+          onChange={(e) => setSearch(e.target.value)}
+        />
         <table className="w-full">
           <thead className="bg-gray-100">
             <tr>
@@ -62,14 +75,23 @@ export default function StudentsPage() {
           </thead>
 
           <tbody>
-            {students.map((student) => (
+            {filteredStudents.map((student) => (
               <tr key={student.id} className="border-t">
                 <td className="p-4">{student.full_name}</td>
 
                 <td className="p-4">{student.school_class_name}</td>
 
                 <td className="p-4">{student.gender}</td>
-                <td className="p-4">
+                <td className="p-4 flex gap-2">
+                  <button
+                    onClick={() =>
+                      navigate(`/admin/students/${student.id}/edit`)
+                    }
+                    className="bg-blue-500 text-white px-3 py-1 rounded"
+                  >
+                    Edit
+                  </button>
+
                   <button
                     onClick={() => deleteStudent(student.id)}
                     className="bg-red-500 text-white px-3 py-1 rounded"

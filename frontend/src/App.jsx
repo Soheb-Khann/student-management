@@ -8,6 +8,8 @@ import TeacherDashboard from "./pages/teacher/TeacherDashboard";
 import ParentDashboard from "./pages/parent/ParentDashboard";
 import StudentsPage from "./pages/admin/StudentsPage";
 import AddStudentPage from "./pages/admin/AddStudentPage";
+import EditStudentPage from "./pages/admin/EditStudentPage";
+import AttendancePage from "./pages/teacher/AttendancePage";
 
 export default function App() {
   const { user, loading } = useContext(AuthContext);
@@ -62,6 +64,17 @@ export default function App() {
           </ProtectedRoute>
         }
       />
+      <Route
+        path="/admin/students/:id/edit"
+        element={
+          <ProtectedRoute user={user}>
+            <EditStudentPage />
+          </ProtectedRoute>
+        }
+      />
+      <Route path="/teacher/attendance" element={<AttendancePage />} />
+
+      <Route path="/admin/attendance" element={<AttendancePage />} />
     </Routes>
   );
 }

@@ -1,6 +1,6 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 
 import DashboardLayout from "../../layouts/DashboardLayout";
 
@@ -8,7 +8,9 @@ import StudentForm from "../../components/StudentForm";
 
 import api from "../../services/api";
 
-export default function AddStudentPage() {
+export default function EditStudentPage() {
+  const { id } = useParams();
+
   const navigate = useNavigate();
 
   const [formData, setFormData] = useState({
@@ -23,11 +25,25 @@ export default function AddStudentPage() {
     active: true,
   });
 
+  const fetchStudent = async () => {
+    try {
+      const response = await api.get(`students/${id}/`);
+
+      setFormData(response.data);
+    } catch (error) {
+      console.error(error);
+    }
+  };
+
+  useEffect(() => {
+    fetchStudent();
+  }, []);
+
   const handleSubmit = async (e) => {
     e.preventDefault();
 
     try {
-      await api.post("students/", formData);
+      await api.put(`students/${id}/`, formData);
 
       navigate("/admin/students");
     } catch (error) {
@@ -38,12 +54,13 @@ export default function AddStudentPage() {
   return (
     <DashboardLayout>
       <div className="max-w-3xl">
-        <h1 className="text-3xl font-bold mb-6">Add Student</h1>
+        <h1 className="text-3xl font-bold mb-6">Edit Student</h1>
 
         <StudentForm
           formData={formData}
           setFormData={setFormData}
           handleSubmit={handleSubmit}
+          buttonText="Update Student"
         />
       </div>
     </DashboardLayout>
