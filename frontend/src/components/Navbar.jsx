@@ -1,3 +1,5 @@
+import { Bell, LogOut } from "lucide-react";
+
 import { useContext } from "react";
 
 import { useNavigate } from "react-router-dom";
@@ -20,21 +22,33 @@ export default function Navbar() {
   };
 
   return (
-    <div className="bg-white shadow px-6 py-4 flex justify-between">
+    <header className="bg-white border-b px-8 py-5 flex justify-between items-center">
       <div>
-        <h1 className="font-semibold">Sunday School Management System</h1>
+        <h2 className="text-xl font-semibold text-slate-800">Welcome back</h2>
+
+        <p className="text-slate-500 text-sm">Manage your school efficiently</p>
       </div>
 
-      <div className="flex items-center gap-4">
-        <span>{user?.username}</span>
+      <div className="flex items-center gap-5">
+        <button className="relative">
+          <Bell className="text-slate-600" size={20} />
+
+          <span className="absolute -top-1 -right-1 bg-red-500 w-2 h-2 rounded-full" />
+        </button>
+
+        <div className="text-right">
+          <p className="font-medium text-slate-800">{user?.username}</p>
+
+          <p className="text-sm text-slate-500 capitalize">{user?.role}</p>
+        </div>
 
         <button
           onClick={logout}
-          className="bg-black text-white px-4 py-2 rounded"
+          className="bg-slate-900 text-white p-2 rounded-lg hover:bg-slate-800 transition"
         >
-          Logout
+          <LogOut size={18} />
         </button>
       </div>
-    </div>
+    </header>
   );
 }

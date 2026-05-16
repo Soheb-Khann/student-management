@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 
 import DashboardLayout from "../../layouts/DashboardLayout";
-
+import toast from "react-hot-toast";
 import api from "../../services/api";
 
 export default function MarksPage() {
@@ -51,7 +51,7 @@ export default function MarksPage() {
     try {
       await api.post("marks/", formData);
 
-      alert("Marks saved");
+      toast.success("Marks saved successfully");
     } catch (error) {
       console.error(error);
     }
