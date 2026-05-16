@@ -10,6 +10,7 @@ import StudentsPage from "./pages/admin/StudentsPage";
 import AddStudentPage from "./pages/admin/AddStudentPage";
 import EditStudentPage from "./pages/admin/EditStudentPage";
 import AttendancePage from "./pages/teacher/AttendancePage";
+import StudentProfilePage from "./pages/admin/StudentProfilePage";
 
 export default function App() {
   const { user, loading } = useContext(AuthContext);
@@ -73,8 +74,16 @@ export default function App() {
         }
       />
       <Route path="/teacher/attendance" element={<AttendancePage />} />
-
       <Route path="/admin/attendance" element={<AttendancePage />} />
+
+      <Route
+        path="/admin/students/:id"
+        element={
+          <ProtectedRoute user={user}>
+            <StudentProfilePage />
+          </ProtectedRoute>
+        }
+      />
     </Routes>
   );
 }

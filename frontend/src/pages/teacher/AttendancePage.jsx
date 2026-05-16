@@ -21,6 +21,8 @@ export default function AttendancePage() {
 
   useEffect(() => {
     fetchStudents();
+
+    fetchDropdownData();
   }, []);
 
   const handleAttendanceChange = (studentId, status) => {
@@ -31,15 +33,82 @@ export default function AttendancePage() {
   };
 
   const submitAttendance = async () => {
-    console.log(attendance);
+    try {
+      const attendanceRecords = Object.entries(attendance).map(
+        ([studentId, status]) => ({
+          student_id: studentId,
+          status,
+        }),
+      );
 
-    alert("Attendance submission API next");
+      await api.post("attendance-submit/", {
+        school_class: selectedClass,
+        subject: selectedSubject,
+        date: new Date().toISOString().split("T")[0],
+
+        attendance_records: attendanceRecords,
+      });
+
+      alert("Attendance submitted");
+    } catch (error) {
+      console.error(error);
+    }
+  };
+
+  const [selectedClass, setSelectedClass] = useState("");
+
+  const [selectedSubject, setSelectedSubject] = useState("");
+
+  const [classes, setClasses] = useState([]);
+
+  const [subjects, setSubjects] = useState([]);
+
+  const fetchDropdownData = async () => {
+    try {
+      const classResponse = await api.get("classes/");
+
+      const subjectResponse = await api.get("subjects/");
+
+      setClasses(classResponse.data);
+
+      setSubjects(subjectResponse.data);
+    } catch (error) {
+      console.error(error);
+    }
   };
 
   return (
     <DashboardLayout>
       <h1 className="text-3xl font-bold mb-6">Attendance</h1>
+      <div className="grid grid-cols-2 gap-4 mb-6">
+        <select
+          className="border p-3"
+          value={selectedClass}
+          onChange={(e) => setSelectedClass(e.target.value)}
+        >
+          <option value="">Select Class</option>
 
+          {classes.map((item) => (
+            <option key={item.id} value={item.id}>
+              {item.name}
+            </option>
+          ))}
+        </select>
+
+        <select
+          className="border p-3"
+          value={selectedSubject}
+          onChange={(e) => setSelectedSubject(e.target.value)}
+        >
+          <option value="">Select Subject</option>
+
+          {subjects.map((item) => (
+            <option key={item.id} value={item.id}>
+              {item.name}
+            </option>
+          ))}
+        </select>
+      </div>
       <div className="bg-white shadow rounded-lg p-6">
         {students.map((student) => (
           <div key={student.id} className="flex justify-between border-b py-4">

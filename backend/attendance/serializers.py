@@ -20,3 +20,14 @@ class AttendanceSessionSerializer(serializers.ModelSerializer):
     class Meta:
         model = AttendanceSession
         fields = '__all__'
+
+
+class AttendanceSubmissionSerializer(serializers.Serializer):
+
+    school_class = serializers.IntegerField()
+
+    subject = serializers.IntegerField()
+
+    date = serializers.DateField()
+
+    attendance_records = serializers.ListField()

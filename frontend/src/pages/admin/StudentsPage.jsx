@@ -84,6 +84,12 @@ export default function StudentsPage() {
                 <td className="p-4">{student.gender}</td>
                 <td className="p-4 flex gap-2">
                   <button
+                    onClick={() => navigate(`/admin/students/${student.id}`)}
+                    className="bg-green-500 text-white px-3 py-1 rounded"
+                  >
+                    View
+                  </button>
+                  <button
                     onClick={() =>
                       navigate(`/admin/students/${student.id}/edit`)
                     }
