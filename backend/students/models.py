@@ -66,6 +66,8 @@ class Student(models.Model):
     family = models.ForeignKey(
         Family,
         on_delete=models.CASCADE,
+        null=True,
+        blank=True,
         related_name='students'
     )
 

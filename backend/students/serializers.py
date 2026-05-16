@@ -19,7 +19,10 @@ class ProgressRecordSerializer(serializers.ModelSerializer):
 
 class StudentSerializer(serializers.ModelSerializer):
 
-    family = FamilySerializer(read_only=True)
+    family_name = serializers.CharField(
+        source='family.father_name',
+        read_only=True
+    )
 
     school_class_name = serializers.CharField(
         source='school_class.name',
@@ -28,4 +31,19 @@ class StudentSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = Student
-        fields = '__all__'
+
+        fields = [
+            'id',
+            'full_name',
+            'arabic_name',
+            'date_of_birth',
+            'gender',
+            'family',
+            'family_name',
+            'school_class',
+            'school_class_name',
+            'admission_date',
+            'photo',
+            'notes',
+            'active',
+        ]
