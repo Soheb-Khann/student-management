@@ -29,6 +29,7 @@ urlpatterns = [
     path('api/', include('fees.urls')),
     path('api/', include('feedback.urls')),
     path('api/', include('classes.urls')),
+    path('api/', include('documents.urls')),
 ]
 
 

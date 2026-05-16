@@ -2,12 +2,10 @@ from django.db import models
 
 from students.models import Student
 
-# Created documents model to manage various documents related to students. 
 
 class StudentDocument(models.Model):
 
-    FILE_TYPE_CHOICES = (
-        ('photo', 'Photo'),
+    DOCUMENT_TYPES = (
         ('admission_form', 'Admission Form'),
         ('certificate', 'Certificate'),
         ('letter', 'Letter'),
@@ -20,9 +18,9 @@ class StudentDocument(models.Model):
         related_name='documents'
     )
 
-    file_type = models.CharField(
+    document_type = models.CharField(
         max_length=50,
-        choices=FILE_TYPE_CHOICES
+        choices=DOCUMENT_TYPES
     )
 
     title = models.CharField(max_length=255)
@@ -31,12 +29,15 @@ class StudentDocument(models.Model):
         upload_to='student_documents/'
     )
 
-    uploaded_at = models.DateTimeField(auto_now_add=True)
+    uploaded_at = models.DateTimeField(
+        auto_now_add=True
+    )
 
     uploaded_by = models.ForeignKey(
         'accounts.User',
         on_delete=models.SET_NULL,
-        null=True
+        null=True,
+        blank=True
     )
 
     def __str__(self):
