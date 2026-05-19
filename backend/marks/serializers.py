@@ -5,15 +5,6 @@ from .models import MarkRecord
 
 class MarkRecordSerializer(serializers.ModelSerializer):
 
-    class Meta:
-        model = MarkRecord
-        fields = '__all__'
-
-
-class MarkRecordSerializer(
-    serializers.ModelSerializer
-):
-
     student_name = serializers.CharField(
         source='student.full_name',
         read_only=True
@@ -32,3 +23,4 @@ class MarkRecordSerializer(
 
     def get_percentage(self, obj):
         return obj.percentage()
+        fields = '__all__'

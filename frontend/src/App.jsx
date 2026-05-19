@@ -34,23 +34,23 @@ export default function App() {
         }
       />
 
-      {/* <Route
+      <Route
         path="/teacher"
         element={
           <ProtectedRoute user={user}>
             <TeacherDashboard />
           </ProtectedRoute>
         }
-      /> */}
+      />
 
-      {/* <Route
+      <Route
         path="/parent"
         element={
           <ProtectedRoute user={user}>
             <ParentDashboard />
           </ProtectedRoute>
         }
-      /> */}
+      />
       <Route
         path="/admin/students"
         element={

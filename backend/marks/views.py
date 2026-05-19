@@ -39,3 +39,12 @@ class MarkRecordViewSet(viewsets.ModelViewSet):
 
         return MarkRecord.objects.none()
 
+    def perform_create(self, serializer):
+
+        teacher = None
+
+        if self.request.user.role == 'teacher':
+            teacher = self.request.user.teacher_profile
+
+        serializer.save(teacher=teacher)
+

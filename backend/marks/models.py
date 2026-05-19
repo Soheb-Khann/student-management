@@ -47,9 +47,12 @@ class MarkRecord(models.Model):
 
     exam_date = models.DateField()
 
-def percentage(self):
+    def percentage(self):
 
-        if self.total_marks == 0:
+        if not self.total_marks:
+            return 0
+
+        if not self.marks_obtained:
             return 0
 
         return (
@@ -57,9 +60,5 @@ def percentage(self):
             self.total_marks
         ) * 100
 
-def __str__(self):
-    return self.exam_name
-
-
-    # def __str__(self):
-    #     return f"{self.student} - {self.subject}"
+    def __str__(self):
+        return self.exam_name

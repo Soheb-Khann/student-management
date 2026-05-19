@@ -2,4 +2,5 @@
 student_management.code-workspace
 .pgdata
 media/
+__pycache__/
 

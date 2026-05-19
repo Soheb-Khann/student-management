@@ -14,6 +14,7 @@ export default function MarksPage() {
     subject: "",
     exam_type: "exam",
     exam_name: "",
+    exam_date: "",
     marks_obtained: "",
     total_marks: "",
     semester: "",
@@ -99,6 +100,13 @@ export default function MarksPage() {
               type="text"
               name="exam_name"
               placeholder="Exam Name"
+              className="border p-3"
+              onChange={handleChange}
+            />
+
+            <input
+              type="date"
+              name="exam_date"
               className="border p-3"
               onChange={handleChange}
             />
