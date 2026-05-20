@@ -1,6 +1,7 @@
 from django.shortcuts import render
 from rest_framework import viewsets
 from rest_framework.permissions import IsAuthenticated
+from rest_framework.exceptions import PermissionDenied
 
 from .models import Student
 from .serializers import StudentSerializer
@@ -89,3 +90,27 @@ class ProgressRecordViewSet(viewsets.ModelViewSet):
             )
 
         return ProgressRecord.objects.none()
+
+    def perform_create(self, serializer):
+
+        user = self.request.user
+
+        if user.role == 'teacher':
+            teacher = user.teacher_profile
+            serializer.save(updated_by=teacher)
+        elif user.role == 'admin':
+            serializer.save()
+        else:
+            raise PermissionDenied('Only teachers or admins can create progress records')
+
+    def perform_update(self, serializer):
+
+        user = self.request.user
+
+        if user.role == 'teacher':
+            teacher = user.teacher_profile
+            serializer.save(updated_by=teacher)
+        elif user.role == 'admin':
+            serializer.save()
+        else:
+            raise PermissionDenied('Only teachers or admins can update progress records')

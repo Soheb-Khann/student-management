@@ -2,6 +2,7 @@ from django.shortcuts import render
 
 from rest_framework import viewsets
 from rest_framework.permissions import IsAuthenticated
+from rest_framework.exceptions import PermissionDenied
 
 from rest_framework.views import APIView
 from rest_framework.response import Response
@@ -64,11 +65,26 @@ class AttendanceSessionViewSet(viewsets.ModelViewSet):
 
         return AttendanceSession.objects.none()
 
+    def perform_create(self, serializer):
+
+        user = self.request.user
+
+        if user.role == 'teacher':
+            serializer.save(teacher=user.teacher_profile)
+        elif user.role == 'admin':
+            serializer.save()
+        else:
+            raise PermissionDenied('Only teachers or admins can create attendance sessions')
+
 class SubmitAttendanceView(APIView):
 
     permission_classes = [IsAuthenticated]
 
     def post(self, request):
+
+        # Only teachers can submit attendance via this endpoint
+        if request.user.role != 'teacher':
+            raise PermissionDenied('Only teachers can submit attendance')
 
         serializer = AttendanceSubmissionSerializer(
             data=request.data

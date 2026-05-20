@@ -46,5 +46,15 @@ class MarkRecordViewSet(viewsets.ModelViewSet):
         if self.request.user.role == 'teacher':
             teacher = self.request.user.teacher_profile
 
-        serializer.save(teacher=teacher)
+            user = self.request.user
+
+            # Only teachers and admins can create marks
+            if user.role == 'teacher':
+                teacher = user.teacher_profile
+                serializer.save(teacher=teacher)
+            elif user.role == 'admin':
+                # admin may create and optionally set teacher via payload
+                serializer.save()
+            else:
+                raise PermissionDenied('Only teachers or admins can create marks')
 
